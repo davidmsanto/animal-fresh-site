@@ -51,6 +51,20 @@ function initCommercialConfig(): void {
     mobileBuyBtn.target = '_blank';
     mobileBuyBtn.rel = 'noopener noreferrer';
   }
+
+  // Rastreamento de conversão (InitiateCheckout no Meta Pixel) ao clicar nos botões de compra
+  const trackInitiateCheckout = () => {
+    if (typeof (window as any).fbq === 'function') {
+      (window as any).fbq('track', 'InitiateCheckout', {
+        content_name: SITE_CONFIG.product.name,
+        currency: 'BRL',
+        value: 399.90,
+      });
+    }
+  };
+
+  btnCheckout?.addEventListener('click', trackInitiateCheckout);
+  mobileBuyBtn?.addEventListener('click', trackInitiateCheckout);
 }
 
 /**
