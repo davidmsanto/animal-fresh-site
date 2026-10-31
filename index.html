@@ -20,18 +20,40 @@
     />
     <meta property="og:image" content="/images/bebedouro-lifestyle-hero.jpg" />
 
-    <!-- Google Fonts Preconnect -->
+    <!-- Resource Hints & DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://connect.facebook.net" />
+    <link rel="dns-prefetch" href="https://www.clarity.ms" />
+    <link rel="dns-prefetch" href="https://fast.wistia.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload Critical Above-The-Fold Assets (LCP Hero Image & Logo) -->
+    <link rel="preload" as="image" href="/images/logo-animal-fresh.webp" type="image/webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/bebedouro-lifestyle-hero.webp" type="image/webp" fetchpriority="high" />
+
+    <!-- Google Fonts Preload & Asynchronous Non-Blocking Load -->
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
+      />
+    </noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/logo-animal-fresh.png" />
 
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code (Asynchronous) -->
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -46,19 +68,22 @@
     </script>
     <!-- End Meta Pixel Code -->
 
-    <!-- Microsoft Clarity -->
-    <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "z6jxy1m8ox");
+    <!-- Microsoft Clarity (Deferred to Idle Time to eliminate TBT) -->
+    <script>
+      function initClarity() {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "z6jxy1m8ox");
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initClarity, { timeout: 2000 });
+      } else {
+        window.addEventListener('load', function() { setTimeout(initClarity, 1000); }, { once: true });
+      }
     </script>
     <!-- End Microsoft Clarity -->
-
-    <!-- Wistia Video Player Scripts -->
-    <script src="https://fast.wistia.com/player.js" async></script>
-    <script src="https://fast.wistia.com/embed/wldbkg0y24.js" async type="module"></script>
   </head>
   <body class="bg-[#F7FBFC] text-[#2f4a56] font-body antialiased selection:bg-[#DDF2F5] selection:text-[#07566B]">
     <!-- Meta Pixel NoScript Fallback -->
@@ -80,13 +105,18 @@
       <div class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
         <!-- Logomarca -->
         <a href="#hero" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#23B8CD] rounded-sm" aria-label="Animal Fresh - Início">
-          <img
-            src="/images/logo-animal-fresh.png"
-            alt="Animal Fresh — Hidratação Pet"
-            class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-            width="180"
-            height="48"
-          />
+          <picture>
+            <source srcset="/images/logo-animal-fresh.webp" type="image/webp" />
+            <img
+              src="/images/logo-animal-fresh.png"
+              alt="Animal Fresh — Hidratação Pet"
+              class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              width="180"
+              height="48"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </a>
 
         <!-- Links de Navegação (Desktop) -->
@@ -176,15 +206,19 @@
           <div class="hero-image-layer pointer-events-none" aria-hidden="true">
             <div class="relative w-full h-full max-w-6xl mx-auto flex items-center justify-end pr-0 lg:pr-4">
               <div class="w-full lg:w-3/5 max-h-[70vh] flex items-center justify-center">
-                <img
-                  src="/images/bebedouro-lifestyle-hero.jpg"
-                  alt="Bebedouro Inox Flow Wireless Branco de 4 litros em ambiente claro e moderno"
-                  class="w-full h-auto max-h-[68vh] object-contain rounded-sm shadow-sm"
-                  loading="eager"
-                  fetchpriority="high"
-                  width="1200"
-                  height="800"
-                />
+                <picture class="w-full flex items-center justify-center">
+                  <source srcset="/images/bebedouro-lifestyle-hero.webp" type="image/webp" />
+                  <img
+                    src="/images/bebedouro-lifestyle-hero.jpg"
+                    alt="Bebedouro Inox Flow Wireless Branco de 4 litros em ambiente claro e moderno"
+                    class="w-full h-auto max-h-[68vh] object-contain rounded-sm shadow-sm"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    width="1200"
+                    height="800"
+                  />
+                </picture>
               </div>
             </div>
           </div>
@@ -265,6 +299,7 @@
               alt="Bebedouro Inox Flow Wireless Animal Fresh em visão frontal e acabamento branco"
               class="w-auto max-h-[70vh] object-contain"
               loading="lazy"
+              decoding="async"
               width="1000"
               height="1000"
             />
@@ -430,6 +465,7 @@
                   alt="Vista superior angular do Bebedouro Animal Fresh destacando a cuba em aço inox"
                   class="w-full h-full object-contain p-4 pb-14 sm:p-6 sm:pb-16"
                   loading="lazy"
+                  decoding="async"
                   width="800"
                   height="1000"
                 />
@@ -612,6 +648,7 @@
                   alt="Visão frontal completa do bebedouro destacando o visor de nível de água"
                   class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  decoding="async"
                   width="700"
                   height="525"
                 />
@@ -633,6 +670,7 @@
                   alt="Cuba em aço inoxidável cirúrgico com tampa superior polida"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  decoding="async"
                   width="500"
                   height="500"
                 />
@@ -654,6 +692,7 @@
                   alt="Diagrama dos componentes elétricos protegidos e módulo recarregável de 4000mAh"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  decoding="async"
                   width="500"
                   height="500"
                 />
@@ -670,14 +709,18 @@
             <!-- Foto 4: Ambientação Doméstica -->
             <div class="md:col-span-7 group bg-white border border-[#C9DADF] p-4 sm:p-6 rounded-[2px] shadow-sm hover:shadow-md transition-shadow" data-rev data-rev-delay="400">
               <div class="aspect-[4/3] overflow-hidden bg-[#F7FBFC] flex items-center justify-center relative">
-                <img
-                  src="/images/bebedouro-lifestyle-hero.jpg"
-                  alt="Bebedouro integrado com naturalidade ao ambiente residencial"
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  width="700"
-                  height="525"
-                />
+                <picture class="w-full h-full">
+                  <source srcset="/images/bebedouro-lifestyle-hero.webp" type="image/webp" />
+                  <img
+                    src="/images/bebedouro-lifestyle-hero.jpg"
+                    alt="Bebedouro integrado com naturalidade ao ambiente residencial"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    width="700"
+                    height="525"
+                  />
+                </picture>
                 <span class="absolute top-3 left-3 px-2.5 py-1 bg-white/95 border border-[#C9DADF] text-[0.7rem] font-bold tracking-[0.12em] uppercase text-[#07566B]">
                   04 • HARMONIA DOMÉSTICA
                 </span>
@@ -709,6 +752,7 @@
                   alt="Bebedouro Inox Flow Wireless 4 Litros Branco"
                   class="w-full h-full object-contain"
                   loading="lazy"
+                  decoding="async"
                   width="500"
                   height="500"
                 />
@@ -925,13 +969,18 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#C9DADF]">
           <!-- Coluna Marca e Slogan -->
           <div class="md:col-span-5">
-            <img
-              src="/images/logo-animal-fresh.png"
-              alt="Animal Fresh"
-              class="h-10 w-auto mb-4 object-contain"
-              width="160"
-              height="40"
-            />
+            <picture>
+              <source srcset="/images/logo-animal-fresh.webp" type="image/webp" />
+              <img
+                src="/images/logo-animal-fresh.png"
+                alt="Animal Fresh"
+                class="h-10 w-auto mb-4 object-contain"
+                width="160"
+                height="40"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
             <p class="font-display italic text-lg text-[#07566B] font-medium mb-2">
               “Água fresca. Amor em cada gole.”
             </p>
@@ -989,6 +1038,8 @@
           src="/images/bebedouro-frontal-white.webp"
           alt="Bebedouro Flow"
           class="w-10 h-10 object-contain bg-[#F7FBFC] border border-[#C9DADF] rounded-[2px]"
+          loading="lazy"
+          decoding="async"
           width="40"
           height="40"
         />

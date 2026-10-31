@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollChoreography();
   initIntersectionReveals();
   initSmoothScroll();
+  initLazyWistiaVideo();
 });
 
 /**
@@ -249,4 +250,59 @@ function initSmoothScroll(): void {
       }
     });
   });
+}
+
+/**
+ * 6. LAZY LOAD WISTIA SCRIPTS ON DEMAND
+ * Defers loading ~300KB of external Wistia video scripts until user scrolls near #video
+ */
+function initLazyWistiaVideo(): void {
+  const videoSection = document.getElementById('video');
+  if (!videoSection) return;
+
+  let loaded = false;
+  const loadWistia = () => {
+    if (loaded) return;
+    loaded = true;
+
+    const s1 = document.createElement('script');
+    s1.src = 'https://fast.wistia.com/player.js';
+    s1.async = true;
+    document.head.appendChild(s1);
+
+    const s2 = document.createElement('script');
+    s2.src = 'https://fast.wistia.com/embed/wldbkg0y24.js';
+    s2.async = true;
+    s2.type = 'module';
+    document.head.appendChild(s2);
+  };
+
+  // If page loads with #video hash or clicked via menu
+  if (window.location.hash === '#video') {
+    loadWistia();
+    return;
+  }
+
+  // Pre-load on click of any link pointing to #video
+  document.querySelectorAll('a[href="#video"]').forEach((link) => {
+    link.addEventListener('click', loadWistia, { once: true });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadWistia();
+            obs.disconnect();
+          }
+        });
+      },
+      { rootMargin: '600px 0px' }
+    );
+    observer.observe(videoSection);
+  } else {
+    // Fallback if no observer
+    window.addEventListener('load', () => setTimeout(loadWistia, 2000), { once: true });
+  }
 }
