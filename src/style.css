@@ -1,0 +1,663 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   ANIMAL FRESH — DESIGN SYSTEM & TOKENS
+   Editorial Premium Pet Care — Alta Legibilidade & Contraste WCAG AA
+   ========================================================================== */
+
+:root {
+  /* Tipografia oficial Fraunces + Inter */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-script: 'Caveat', cursive;
+
+  /* Cores e contraste exigidos (mínimo WCAG AA 4.5:1 / AAA) */
+  --text-strong: #0b2a36;        /* títulos em fundo claro — Contraste 14.2:1 */
+  --text-body: #2f4a56;          /* parágrafos em fundo claro — Contraste 8.1:1 */
+  --text-on-dark: #eaf4f7;       /* títulos em fundo escuro — Contraste 14.8:1 */
+  --text-on-dark-muted: #b9ccd4; /* descrições/parágrafos em fundo escuro — Contraste 9.1:1 */
+
+  /* Cores de fundo e acentos da marca */
+  --bg-primary: #F7FBFC;
+  --color-white: #FFFFFF;
+  --color-paper: #EAF3F5;
+  --color-strip-turquoise: #DDF2F5;
+  --color-petrol: #07566B;        /* Teal escuro de alto contraste: 7.8:1 em fundo claro */
+  --color-deep-dark: #071F2A;
+  --color-accent-turquoise: #23B8CD;
+  --color-blue-alt: #168DB5;
+  --color-border-line: #C9DADF;
+  --color-border-dark: rgba(201, 218, 223, 0.18);
+
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Variáveis dinâmicas de scroll */
+  --hero-progress: 0;
+  --reveal-progress: 0;
+  --dark-progress: 0;
+}
+
+/* --------------------------------------------------------------------------
+   BASE & RESET DE LEGIBILIDADE
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  font-family: var(--font-body);
+  font-size: 1.0625rem; /* 17px base */
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-body);
+}
+
+/* --------------------------------------------------------------------------
+   HIERARQUIA TIPOGRÁFICA EDITORIAL
+   -------------------------------------------------------------------------- */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+}
+
+h3 {
+  font-size: 1.375rem;
+}
+
+p {
+  max-width: 62ch;
+  color: var(--text-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+/* Utilitários de Família */
+.font-display,
+.font-serif {
+  font-family: var(--font-display);
+}
+
+.font-body,
+.font-sans {
+  font-family: var(--font-body);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+/* Headlines com Itálico de Destaque */
+.headline-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  font-weight: 500;
+  color: var(--text-strong);
+}
+
+.headline-display em,
+.headline-display .headline-italic,
+em.headline-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-petrol); /* #07566B: contraste 7.8:1 comprovado com fundo claro */
+}
+
+/* Rótulos e Eyebrows */
+.editorial-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem; /* 12px mínimo */
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-petrol);
+}
+
+.editorial-label-dark {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-turquoise);
+}
+
+/* Divisórias */
+.editorial-line {
+  height: 1px;
+  background-color: var(--color-border-line);
+  width: 100%;
+}
+
+.editorial-line-dark {
+  height: 1px;
+  background-color: var(--color-border-dark);
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 1: HERO EDITORIAL SCROLL STAGE
+   -------------------------------------------------------------------------- */
+.stage-hero-container {
+  height: 290svh;
+  position: relative;
+  background-color: var(--bg-primary);
+}
+
+.stage-hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-image-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transform: scale(calc(1.02 + (var(--hero-progress) * 0.05))) translateY(calc(var(--hero-progress) * -25px));
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+.hero-content-layer {
+  position: relative;
+  z-index: 10;
+  transform: translateY(calc(var(--hero-progress) * -40px));
+  opacity: calc(1 - (var(--hero-progress) * 1.3));
+  transition: transform 0.05s linear, opacity 0.05s linear;
+  will-change: transform, opacity;
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 2: REVEAL EDITORIAL SCROLL STAGE
+   -------------------------------------------------------------------------- */
+.stage-reveal-container {
+  height: 310svh;
+  position: relative;
+  background-color: var(--color-paper);
+}
+
+.stage-reveal-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6rem;
+  padding-bottom: 3rem;
+}
+
+.reveal-overlay-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  opacity: calc(1 - (var(--reveal-progress) * 1.9));
+  transform: translateY(calc(var(--reveal-progress) * -30px));
+  transition: opacity 0.05s linear, transform 0.05s linear;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.reveal-image-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  clip-path: inset(0 0 calc(100% - (var(--reveal-progress) * 100%)) 0);
+  transition: clip-path 0.04s linear;
+  will-change: clip-path;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal-image-mask img {
+  max-width: 900px;
+  max-height: 75vh;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.reveal-caption {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  pointer-events: none;
+  opacity: calc((var(--reveal-progress) - 0.42) / 0.35);
+  transform: translateY(calc((1 - var(--reveal-progress)) * 15px));
+  transition: opacity 0.1s linear, transform 0.1s linear;
+}
+
+/* --------------------------------------------------------------------------
+   STAGE 3: CARACTERÍSTICAS EM FUNDO ESCURO (CORREÇÃO DE LEGIBILIDADE & OPACITY)
+   -------------------------------------------------------------------------- */
+.stage-dark-container {
+  height: 330svh;
+  position: relative;
+  background-color: var(--color-deep-dark);
+}
+
+.stage-dark-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  color: var(--text-on-dark);
+}
+
+.stage-dark-sticky h2 {
+  color: var(--text-on-dark);
+}
+
+.dark-feature-item {
+  position: relative;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  opacity: 1 !important; /* Opacidade 1 sempre para máxima legibilidade */
+  transform: translateX(0);
+  border-bottom: 1px solid var(--color-border-dark);
+  transition: transform 0.3s var(--ease-editorial), border-color 0.3s ease;
+}
+
+.dark-feature-item h3 {
+  color: var(--text-on-dark);
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.25;
+  opacity: 1 !important;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.dark-feature-item p {
+  color: var(--text-on-dark-muted);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.55;
+  opacity: 1 !important;
+  max-width: 58ch;
+}
+
+.dark-feature-item .feature-num {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-accent-turquoise);
+  opacity: 1 !important;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.dark-feature-item.is-active {
+  transform: translateX(6px);
+  border-bottom-color: rgba(35, 184, 205, 0.5);
+}
+
+.dark-feature-item.is-active h3 {
+  color: #FFFFFF;
+}
+
+.dark-feature-item.is-active .feature-num {
+  transform: scale(1.1);
+}
+
+.dark-image-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(201, 218, 223, 0.2);
+  background: linear-gradient(to bottom, #10252D, #071F2A);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.dark-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.dark-product-composition {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 218, 223, 0.12);
+}
+
+.dark-product-composition img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(calc(1.06 - (var(--dark-progress) * 0.06)));
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   WISTIA VIDEO PLAYER EMBED & STYLING
+   -------------------------------------------------------------------------- */
+wistia-player[media-id='wldbkg0y24']:not(:defined) {
+  background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/wldbkg0y24/swatch');
+  display: block;
+  filter: blur(5px);
+  padding-top: 177.78%;
+}
+
+.video-frame-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px -15px rgba(7, 31, 42, 0.15);
+  border: 1px solid var(--color-border-line);
+  background-color: #FFFFFF;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video-frame-container:hover {
+  box-shadow: 0 25px 50px -12px rgba(7, 31, 42, 0.22);
+}
+
+/* --------------------------------------------------------------------------
+   DETAILS & SUMMARY FAQ (PURE CSS DISCLOSURE)
+   -------------------------------------------------------------------------- */
+details.faq-item {
+  border-bottom: 1px solid var(--color-border-line);
+  transition: background-color 0.25s ease;
+}
+
+details.faq-item:hover {
+  background-color: rgba(221, 242, 245, 0.3);
+}
+
+details.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--text-strong);
+  user-select: none;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-icon-cross {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.faq-icon-cross::before,
+.faq-icon-cross::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--color-petrol);
+  transition: transform 0.35s var(--ease-editorial), background-color 0.3s ease;
+}
+
+.faq-icon-cross::before {
+  width: 14px;
+  height: 2px;
+  margin-left: -7px;
+  margin-top: -1px;
+}
+
+.faq-icon-cross::after {
+  width: 2px;
+  height: 14px;
+  margin-left: -1px;
+  margin-top: -7px;
+}
+
+details[open] .faq-icon-cross::after {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+details[open] .faq-icon-cross::before {
+  background-color: var(--color-accent-turquoise);
+}
+
+.faq-answer {
+  padding: 0 0.5rem 1.5rem 0.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-body);
+  max-width: 62ch;
+}
+
+/* --------------------------------------------------------------------------
+   INTERSECTION OBSERVER FADE REVEALS
+   -------------------------------------------------------------------------- */
+[data-rev] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-editorial), transform 0.8s var(--ease-editorial);
+  will-change: opacity, transform;
+}
+
+[data-rev].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-rev-delay="100"] { transition-delay: 0.1s; }
+[data-rev-delay="200"] { transition-delay: 0.2s; }
+[data-rev-delay="300"] { transition-delay: 0.3s; }
+[data-rev-delay="400"] { transition-delay: 0.4s; }
+
+/* --------------------------------------------------------------------------
+   PREFERS-REDUCED-MOTION OVERRIDES (ACCESSIBILITY MANDATORY)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .stage-hero-container,
+  .stage-reveal-container,
+  .stage-dark-container {
+    height: auto !important;
+    min-height: 100svh;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .stage-hero-sticky,
+  .stage-reveal-sticky,
+  .stage-dark-sticky {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .hero-image-layer,
+  .hero-content-layer,
+  .reveal-overlay-text {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .reveal-image-mask {
+    clip-path: none !important;
+    position: relative !important;
+    height: 480px !important;
+  }
+
+  .reveal-caption {
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative !important;
+    bottom: auto !important;
+    margin-top: 1.5rem;
+  }
+
+  .dark-feature-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .dark-product-composition img {
+    transform: none !important;
+  }
+
+  [data-rev] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE TABLET & MOBILE (ADAPTAÇÃO DE ESTÁGIOS & PRODUTO)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  /* Estágio 3 Dark: desativa o pinning rígido para permitir scroll contínuo e sem corte da imagem */
+  .stage-dark-container {
+    height: auto !important;
+    min-height: auto !important;
+    position: relative !important;
+    padding-top: 4.5rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  .stage-dark-sticky {
+    position: relative !important;
+    height: auto !important;
+    min-height: auto !important;
+    top: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Card da Imagem do Produto no mobile: proporção quadrada sem cortes */
+  .dark-image-card {
+    aspect-ratio: 1 / 1 !important;
+    max-width: 340px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 2.25rem !important;
+  }
+
+  .dark-image-card img {
+    object-fit: contain !important;
+    padding: 1.25rem 1.25rem 3.75rem 1.25rem !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE OPTIMIZATIONS & UTILITIES (NENHUM TEXTO DE CORPO ABAIXO DE 16PX)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  body, p, .text-base, .faq-answer {
+    font-size: 1rem !important; /* Mínimo 16px */
+    line-height: 1.6;
+  }
+
+  .stage-hero-container {
+    height: 140svh;
+  }
+
+  .stage-reveal-container {
+    height: 160svh;
+  }
+
+  .stage-hero-sticky {
+    padding-top: 5.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .hero-image-layer {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transform: none !important;
+  }
+
+  .hero-image-layer > div {
+    justify-content: center !important;
+  }
+
+  .hero-image-layer img {
+    max-height: 28vh !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
+  }
+
+  .headline-display {
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Safe area padding for mobile sticky buy bar */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
